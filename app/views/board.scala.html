@@ -1,0 +1,28 @@
+@import ttt.game.Marks
+
+@(rows: List[List[Marks]])
+
+@main("Tic Tac Toe") {
+    <body>
+        <h1>Tic Tac Toe</h1>
+
+        <table id="board">
+        @for(row <- rows) {
+            <tr>
+            @for(cell <- row) {
+                <th>
+                    @if(cell == Marks.NULL) {
+                        <form METHOD="post" action="/newMove">
+                            <input type="hidden" value="move"/>
+                            <button type="submit" class="cell" value="move"></button>
+                        </form>
+                    } else {
+                        @cell
+                    }
+                </th>
+            }
+            </tr>
+        }
+        </table>
+    </body>
+}
