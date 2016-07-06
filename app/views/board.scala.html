@@ -1,28 +1,44 @@
 @import ttt.game.Marks
+@import ttt.game.Board
+@import ttt.game.GameEngine
 
-@(rows: List[List[Marks]])
+@(board: Board, game: GameEngine)
 
 @main("Tic Tac Toe") {
     <body>
         <h1>Tic Tac Toe</h1>
 
         <table id="board">
-        @for(row <- rows) {
+        @for((row, index) <- board.getRows.zipWithIndex) {
             <tr>
-            @for(cell <- row) {
-                <th>
-                    @if(cell == Marks.NULL) {
+            @for((cell, position) <- row.zipWithIndex) {
+                <th class="cell">
+                @if(cell == Marks.NULL) {
+                    @if(!game.isOver) {
                         <form METHOD="post" action="/newMove">
-                            <input type="hidden" value="move"/>
-                            <button type="submit" class="cell" value="move"></button>
+                            <input type="hidden" value="@index" name="rowNumber"/>
+                            <input type="hidden" value="@position" name="cellPosition"/>
+                            <input type="submit" class="cellButton" value=" "/>
                         </form>
                     } else {
-                        @cell
+                        <p class="mark"> </p>
                     }
+                } else {
+                    <p class="mark"> @cell <p/>
+                }
                 </th>
             }
             </tr>
         }
         </table>
+        <section>
+        @if(game.isOver) {
+            @if(game.isWon) {
+                <p>@game.winningMark() wins!<p>
+            } else {
+                <p>It's a draw!</p>
+            }
+        }
+        </section>
     </body>
 }

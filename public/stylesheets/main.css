@@ -5,14 +5,25 @@ table, th, tr {
     margin-right: auto;
 }
 
-table {
-    border-collapse: collapse;
+.cell {
+    padding: 20px 20px;
 }
 
-button {
+table {
+    border-collapse: collapse;
+    border: none;
+}
+
+.cellButton {
     padding: 20px 20px;
     border: none;
     background: none;
 }
+
+.mark {
+    padding: 1px 15px;
+}
+
+
 
 
