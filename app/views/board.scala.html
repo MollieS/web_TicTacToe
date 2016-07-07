@@ -2,11 +2,15 @@
 @import ttt.game.Board
 @import ttt.game.GameEngine
 
-@(board: Board, game: GameEngine)
+@(board: Board, game: GameEngine, gametype: String)
 
 @main("Tic Tac Toe") {
     <body>
         <h1>Tic Tac Toe</h1>
+
+        <h3 id="gametype">@gametype</h3>
+
+        <p>@game.currentMark()'s turn</p>
 
         <table id="board">
         @for((row, index) <- board.getRows.zipWithIndex) {
