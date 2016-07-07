@@ -33,7 +33,7 @@ public class GameController extends Controller {
 
     public Result showBoard() {
         getComputerMove();
-        return ok(board.render(game.showBoard(), game, gametype));
+        return ok(board.render(game.showBoard(), game, gametype, true, "X wins!"));
     }
 
     public Result placeMark() {

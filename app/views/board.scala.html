@@ -2,47 +2,45 @@
 @import ttt.game.Board
 @import ttt.game.GameEngine
 
-@(board: Board, game: GameEngine, gametype: String)
+@(board: Board, game: GameEngine, gametype: String, isFinished: Boolean, status: String)
 
 @main("Tic Tac Toe") {
-    <body>
-        <h1>Tic Tac Toe</h1>
 
-        <h3 id="gametype">@gametype</h3>
+<body>
+<h1>Tic Tac Toe</h1>
 
-        <p>@game.currentMark()'s turn</p>
+<h3 id="gametype">@gametype</h3>
 
-        <table id="board">
-        @for((row, index) <- board.getRows.zipWithIndex) {
-            <tr>
-            @for((cell, position) <- row.zipWithIndex) {
-                <th class="cell">
-                @if(cell == Marks.NULL) {
-                    @if(!game.isOver) {
-                        <form METHOD="post" action="/newMove">
-                            <input type="hidden" value="@index" name="rowNumber"/>
-                            <input type="hidden" value="@position" name="cellPosition"/>
-                            <input type="submit" class="cellButton" value=" "/>
-                        </form>
-                    } else {
-                        <p class="mark"> </p>
-                    }
+<p>@game.currentMark()'s turn</p>
+
+<table id="board">
+    @for((row, index) <- board.getRows.zipWithIndex) {
+    <tr>
+        @for((cell, position) <- row.zipWithIndex) {
+        <th class="cell">
+            @if(cell == Marks.NULL) {
+                @if(!game.isOver) {
+                    <form METHOD="post" action="/newMove">
+                        <input type="hidden" value="@index" name="rowNumber"/>
+                        <input type="hidden" value="@position" name="cellPosition"/>
+                        <input type="submit" class="cellButton" value=" "/>
+                    </form>
                 } else {
-                    <p class="mark"> @cell <p/>
+                    <p class="mark"></p>
                 }
-                </th>
-            }
-            </tr>
-        }
-        </table>
-        <section>
-        @if(game.isOver) {
-            @if(game.isWon) {
-                <p>@game.winningMark() wins!<p>
             } else {
-                <p>It's a draw!</p>
+            <p class="mark"> @cell<p/>
             }
+        </th>
         }
-        </section>
-    </body>
+    </tr>
+    }
+</table>
+<section>
+    @if(isFinished) {
+        <p>@status<p>
+    }
+</section>
+</body>
+
 }
