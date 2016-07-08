@@ -8,6 +8,7 @@ import ttt.game.GameEngine;
 import ttt.players.HumanPlayer;
 import views.html.board;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,28 @@ public class GameController extends Controller {
 
     public Result placeMark() {
         Map<String, String[]> request = request().body().asFormUrlEncoded();
+        this.stringBoard = formatBoard(request.get("board")[0]);
         Integer row = Integer.valueOf(request.get("rowNumber")[0]);
         Integer cell = Integer.valueOf(request.get("cellPosition")[0]);
         int move = getMove(row, cell);
         game.play(move);
         getComputerMove();
         return redirect("/game");
+    }
+
+    private List<List<String>> formatBoard(String board) {
+        int rowStart = 0;
+        String[] boardCells = board.split(",");
+        List<List<String>> rows = new ArrayList<>();
+        for (int cell = 0; cell < 3; cell++) {
+            List<String> cells = new ArrayList<>();
+            for (int currentCell = 0; currentCell < 3; currentCell++) {
+                cells.add(boardCells[currentCell + rowStart]);
+            }
+            rows.add(cells);
+            rowStart += 3;
+        }
+        return rows;
     }
 
     private void getComputerMove() {

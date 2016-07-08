@@ -50,9 +50,11 @@ public class GameControllerTest extends WithApplication {
     @Test
     public void gamePageShowsBoard() {
         setUpGame(1);
-        String stringBoard = "0, 1, 2, 3, 4, 5, 6, 7, 8";
+        String stringBoard = " , , , , , , , , ";
         Map<String,String> form = new HashMap<>();
         form.put("board", stringBoard);
+        form.put("rowNumber", "0");
+        form.put("cellPosition", "0");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         Result result = route(routes.GameController.showBoard());
         int cells = StringUtils.countMatches(contentAsString(result), "th class=\"cell\"");
@@ -65,7 +67,7 @@ public class GameControllerTest extends WithApplication {
         Map<String, String> form = new HashMap<String, String>();
         form.put("rowNumber", "0");
         form.put("cellPosition", "0");
-        form.put("board", "0, 1, 2, 3, 4, 5, 6, 7, 8");
+        form.put("board", "X, , , , , , , , ");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         Result result = route(routes.GameController.showBoard());
         assertTrue(contentAsString(result).contains("<p class=\"mark\"> X"));
@@ -85,22 +87,27 @@ public class GameControllerTest extends WithApplication {
         Map<String, String> form = new HashMap<>();
         form.put("rowNumber", "0");
         form.put("cellPosition", "0");
+        form.put("board", " , , , , , , , , ");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         form = new HashMap<>();
         form.put("rowNumber", "1");
         form.put("cellPosition", "0");
+        form.put("board", " , , , , , , , , ");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         form = new HashMap<>();
         form.put("rowNumber", "0");
         form.put("cellPosition", "1");
+        form.put("board", " , , , , , , , , ");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         form = new HashMap<>();
         form.put("rowNumber", "1");
         form.put("cellPosition", "0");
+        form.put("board", " , , , , , , , , ");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         form = new HashMap<>();
         form.put("rowNumber", "0");
         form.put("cellPosition", "2");
+        form.put("board", " , , , , , , , , ");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         Result result = route(routes.GameController.showBoard());
         assertTrue(contentAsString(result).contains("X wins!"));
