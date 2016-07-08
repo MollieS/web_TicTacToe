@@ -16,8 +16,8 @@ public class WebPlayer implements Player {
         return mark;
     }
 
-    public Integer getLocation(Board board) throws Exception {
-        return null;
+    public int getLocation(Board board) throws Exception {
+        return 0;
     }
 
     public Class playerType() {

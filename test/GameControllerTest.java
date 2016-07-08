@@ -1,5 +1,7 @@
 import controllers.GameController;
 import controllers.routes;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jetty.util.StringUtil;
 import org.junit.Before;
 import org.junit.Test;
 import play.Application;
@@ -46,7 +48,8 @@ public class GameControllerTest extends WithApplication {
     public void gamePageShowsBoard() {
         setUpGame(1);
         Result result = route(routes.GameController.showBoard());
-        assertTrue(contentAsString(result).contains("1"));
+        int cells = StringUtils.countMatches(contentAsString(result), "th class=\"cell\"");
+        assertTrue(cells == 9);
     }
 
     @Test
@@ -57,7 +60,7 @@ public class GameControllerTest extends WithApplication {
         form.put("cellPosition", "0");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         Result result = route(routes.GameController.showBoard());
-        assertTrue(contentAsString(result).contains("X"));
+        assertTrue(contentAsString(result).contains("<p class=\"mark\"> X"));
     }
 
     @Test
