@@ -1,8 +1,4 @@
-@import ttt.game.Marks
-@import ttt.game.Board
-@import ttt.game.GameEngine
-
-@(board: List[List[String]], currentPlayer: String,  gameType: String, isFinished: Boolean, status: String)
+@(board: List[List[String]], currentBoard: String, currentPlayer: String,  gameType: String, isFinished: Boolean, status: String)
 
 @main("Tic Tac Toe") {
 
@@ -22,7 +18,8 @@
                         <form METHOD="post" action="/new-move">
                             <input type="hidden" value="@index" name="rowNumber"/>
                             <input type="hidden" value="@position" name="cellPosition"/>
-                            <input type="submit" class="cellButton" value=" "/>
+                            <input type="hidden" value="@currentBoard" name="board"/>
+                            <input type="submit" class="cellButton" value="@cell"/>
                         </form>
                     } else {
                         <p class="mark"> @cell<p/>

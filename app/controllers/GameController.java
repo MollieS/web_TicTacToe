@@ -2,13 +2,13 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.GameLoop;
 import services.WebInput;
 import ttt.game.GameConstructor;
 import ttt.game.GameEngine;
 import ttt.players.HumanPlayer;
 import views.html.board;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,61 +17,10 @@ public class GameController extends Controller {
 
     private GameEngine game;
     private String gametype;
-    private List<List<String>> stringBoard;
+    private GameLoop gameLoop;
 
     public GameController() {
-        this.game = null;
         this.gametype = null;
-        List<String> row = Arrays.asList(" ", " ", " ");
-        this.stringBoard = Arrays.asList(row, row, row);
-    }
-
-    public Result showBoard() {
-        getComputerMove();
-        return ok(board.render(stringBoard, game.currentMark().toString(), gametype, true, "X wins!"));
-    }
-
-    public Result newGame() {
-        createGame();
-        Map<String, String[]> request = request().body().asFormUrlEncoded();
-        return redirect("/game");
-    }
-
-
-    public Result placeMark() {
-        Map<String, String[]> request = request().body().asFormUrlEncoded();
-        this.stringBoard = formatBoard(request.get("board")[0]);
-        Integer row = Integer.valueOf(request.get("rowNumber")[0]);
-        Integer cell = Integer.valueOf(request.get("cellPosition")[0]);
-        int move = getMove(row, cell);
-        game.play(move);
-        getComputerMove();
-        return redirect("/game");
-    }
-
-    private List<List<String>> formatBoard(String board) {
-        int rowStart = 0;
-        String[] boardCells = board.split(",");
-        List<List<String>> rows = new ArrayList<>();
-        for (int cell = 0; cell < 3; cell++) {
-            List<String> cells = new ArrayList<>();
-            for (int currentCell = 0; currentCell < 3; currentCell++) {
-                cells.add(boardCells[currentCell + rowStart]);
-            }
-            rows.add(cells);
-            rowStart += 3;
-        }
-        return rows;
-    }
-
-    private void getComputerMove() {
-        if (game.getCurrentPlayer().playerType() != HumanPlayer.class) {
-            try {
-                game.play(game.getCurrentPlayer().getLocation(game.showBoard()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public GameEngine createGame() {
@@ -82,6 +31,41 @@ public class GameController extends Controller {
         this.game = game;
         this.gametype = gameType;
         return game;
+    }
+
+    public Result showBoard() {
+        getComputerMove();
+        String stringBoard = gameLoop.getBoard();
+        List<List<String>> rows = gameLoop.getRows();
+        return ok(board.render(rows, stringBoard, game.currentMark().toString(), gametype, true, "X wins!"));
+    }
+
+    public Result newGame() {
+        GameEngine game = createGame();
+        this.gameLoop = new GameLoop(game);
+        Map<String, String[]> request = request().body().asFormUrlEncoded();
+        return redirect("/game");
+    }
+
+    public Result placeMark() {
+        Map<String, String[]> request = request().body().asFormUrlEncoded();
+        Integer row = Integer.valueOf(request.get("rowNumber")[0]);
+        Integer cell = Integer.valueOf(request.get("cellPosition")[0]);
+        int move = getMove(row, cell);
+        gameLoop.playMove(move);
+        getComputerMove();
+        return redirect("/game");
+    }
+
+
+    private void getComputerMove() {
+        if (game.getCurrentPlayer().playerType() != HumanPlayer.class) {
+            try {
+                game.play(game.getCurrentPlayer().getLocation(game.showBoard()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public int getMove(int row, int cell) {
