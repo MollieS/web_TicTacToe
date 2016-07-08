@@ -20,7 +20,7 @@
         <th class="cell">
             @if(cell == Marks.NULL) {
                 @if(!game.isOver) {
-                    <form METHOD="post" action="/newMove">
+                    <form METHOD="post" action="/new-move">
                         <input type="hidden" value="@index" name="rowNumber"/>
                         <input type="hidden" value="@position" name="cellPosition"/>
                         <input type="submit" class="cellButton" value=" "/>
