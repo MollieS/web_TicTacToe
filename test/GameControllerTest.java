@@ -73,13 +73,6 @@ public class GameControllerTest extends WithApplication {
         assertTrue(contentAsString(result).contains("<p class=\"mark\"> X"));
     }
 
-    @Test
-    public void calculatesMove() {
-        setUpGame(1);
-        assertEquals(3, controller.getMove(0, 3));
-        assertEquals(4, controller.getMove(1, 1));
-        assertEquals(7, controller.getMove(2, 1));
-    }
 
     @Test
     public void canPlayAGame() {

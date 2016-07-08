@@ -52,8 +52,8 @@ public class GameController extends Controller {
         Integer row = Integer.valueOf(request.get("rowNumber")[0]);
         Integer cell = Integer.valueOf(request.get("cellPosition")[0]);
         int move = getMove(row, cell);
-        gameLoop.playMove(move);
-        getComputerMove();
+        gameLoop.setPlayerMove(move);
+        gameLoop.playMove();
         return redirect("/game");
     }
 
@@ -68,7 +68,7 @@ public class GameController extends Controller {
         }
     }
 
-    public int getMove(int row, int cell) {
-        return cell + (row * 3);
+    private int getMove(int row, int column) {
+        return column + (row * 3);
     }
 }

@@ -13,11 +13,17 @@ public class GameLoop {
     private String board;
     private GameEngine game;
     private List<List<Marks>> rows;
+    private Integer nextMove;
 
     public GameLoop(GameEngine game) {
         this.board = " , , , , , , , , ";
         this.game = game;
         this.rows = game.showBoard().getRows();
+        this.nextMove = null;
+    }
+
+    public void setPlayerMove(Integer move) {
+        this.nextMove = move;
     }
 
     public String getBoard() {
@@ -26,40 +32,75 @@ public class GameLoop {
 
     public List<List<String>> getRows() {
         List<List<String>> allRows = new ArrayList<>();
-        for (List<Marks> currentRow : rows) {
-            List<String> row = new ArrayList<>();
-            for (Marks cell : currentRow) {
-                if (cell == Marks.NULL) {
-                    row.add(" ");
-                } else {
-                    row.add(cell.toString());
-                }
-            }
-            allRows.add(row);
-        }
+        fillRows(allRows);
         return allRows;
     }
 
-    public void playMove(int move) {
-        game.play(move);
-        this.rows = game.showBoard().getRows();
-        updateBoard();
+
+    public void playMove() {
+        while (nextMove != null) {
+            game.play(nextMove);
+            nextMove = null;
+            try {
+                nextMove = game.getCurrentPlayer().getLocation(game.showBoard());
+            } catch (Exception e) {
+                e.getMessage();
+            }
+            this.rows = game.showBoard().getRows();
+            updateBoard();
+        }
+    }
+
+    public int getNextMove() {
+        return nextMove;
     }
 
     private void updateBoard() {
         String board = "";
-        for (int i = 0; i < 9; i++) {
-            if (game.showBoard().getMarkAt(i) == Marks.NULL) {
-                board += " ";
-            } else {
-                board += game.showBoard().getMarkAt(i).toString();
-            }
-            if (i < 8) {
-                board += ",";
-            }
-        }
+        board = convertBoardToString(board);
         this.board = board;
     }
 
+    private String convertBoardToString(String board) {
+        for (int i = 0; i < 9; i++) {
+            Marks cell = game.showBoard().getMarkAt(i);
+            board = getStringFromMark(board, cell);
+            board = addSplit(board, i);
+        }
+        return board;
+    }
 
+    private String addSplit(String board, int i) {
+        if (i < 8) {
+            board += ",";
+        }
+        return board;
+    }
+
+    private String getStringFromMark(String board, Marks cell) {
+        if (cell == Marks.NULL) {
+            board += " ";
+        } else {
+            board += cell.toString();
+        }
+        return board;
+    }
+
+    private void fillRows(List<List<String>> allRows) {
+        for (List<Marks> currentRow : rows) {
+            List<String> row = new ArrayList<>();
+            for (Marks cell : currentRow) {
+                addCellContents(row, cell);
+            }
+            allRows.add(row);
+        }
+    }
+
+    private void addCellContents(List<String> row, Marks cell) {
+        if (cell == Marks.NULL) {
+            row.add(" ");
+        } else {
+            row.add(cell.toString());
+        }
+    }
 }

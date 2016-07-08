@@ -6,6 +6,7 @@ import ttt.Player;
 import ttt.game.Board;
 import ttt.game.GameEngine;
 import ttt.game.Marks;
+import ttt.players.PerfectPlayer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,14 +40,29 @@ public class GameLoopTest {
 
     @Test
     public void updatesBoardWhenMarkIsPlaced() {
-        loop.playMove(0);
+        loop.setPlayerMove(0);
+        loop.playMove();
         assertEquals("X, , , , , , , , ", loop.getBoard());
     }
 
     @Test
     public void continuesToUpdateBoard() {
-        loop.playMove(0);
-        loop.playMove(1);
+        loop.setPlayerMove(0);
+        loop.playMove();
+        loop.setPlayerMove(1);
+        loop.playMove();
         assertEquals("X,O, , , , , , , ", loop.getBoard());
+    }
+
+    @Test
+    public void canPlayAPerfectPlayer() {
+        Player player1 = new WebPlayer(Marks.X);
+        Player player2 = new PerfectPlayer(Marks.O);
+        Board board = new Board(3);
+        GameEngine game = new GameEngine(player1, player2, board);
+        GameLoop gameLoop = new GameLoop(game);
+        gameLoop.setPlayerMove(0);
+        gameLoop.playMove();
+        assertEquals("X, , , ,O, , , , ", gameLoop.getBoard());
     }
 }
