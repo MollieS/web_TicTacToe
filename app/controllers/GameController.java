@@ -3,26 +3,31 @@ package controllers;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.WebInput;
-import services.WebPlayer;
-import ttt.Player;
-import ttt.game.Board;
 import ttt.game.GameConstructor;
 import ttt.game.GameEngine;
-import ttt.game.Marks;
 import ttt.players.HumanPlayer;
 import views.html.board;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class GameController extends Controller {
 
     private GameEngine game;
     private String gametype;
+    private List<List<String>> stringBoard;
 
     public GameController() {
         this.game = null;
         this.gametype = null;
+        List<String> row = Arrays.asList(" ", " ", " ");
+        this.stringBoard = Arrays.asList(row, row, row);
+    }
+
+    public Result showBoard() {
+        getComputerMove();
+        return ok(board.render(stringBoard, game.currentMark().toString(), gametype, true, "X wins!"));
     }
 
     public Result newGame() {
@@ -31,10 +36,6 @@ public class GameController extends Controller {
         return redirect("/game");
     }
 
-    public Result showBoard() {
-        getComputerMove();
-        return ok(board.render(game.showBoard(), game, gametype, true, "X wins!"));
-    }
 
     public Result placeMark() {
         Map<String, String[]> request = request().body().asFormUrlEncoded();

@@ -11,12 +11,13 @@ import static org.junit.Assert.assertEquals;
 public class GameLoopTest {
 
     @Test
-    public void startsAGame() {
+    public void startsAHumanVHumanGame() {
         Player player = new WebPlayer(Marks.X);
         Player player2 = new WebPlayer(Marks.O);
         Board board = new Board(3);
         GameEngine game = new GameEngine(player, player2, board);
         GameLoop loop = new GameLoop(game);
         loop.start();
+
     }
 }

@@ -2,45 +2,39 @@
 @import ttt.game.Board
 @import ttt.game.GameEngine
 
-@(board: Board, game: GameEngine, gametype: String, isFinished: Boolean, status: String)
+@(board: List[List[String]], currentPlayer: String,  gameType: String, isFinished: Boolean, status: String)
 
 @main("Tic Tac Toe") {
 
 <body>
 <h1>Tic Tac Toe</h1>
 
-<h3 id="gametype">@gametype</h3>
-
-<p>@game.currentMark()'s turn</p>
+<p id="currentplayer">@currentPlayer's turn</p>
 
 <table id="board">
-    @for((row, index) <- board.getRows.zipWithIndex) {
-    <tr>
-        @for((cell, position) <- row.zipWithIndex) {
-        <th class="cell">
-            @if(cell == Marks.NULL) {
-                @if(!game.isOver) {
-                    <form METHOD="post" action="/new-move">
-                        <input type="hidden" value="@index" name="rowNumber"/>
-                        <input type="hidden" value="@position" name="cellPosition"/>
-                        <input type="submit" class="cellButton" value=" "/>
-                    </form>
-                } else {
-                    <p class="mark"></p>
-                }
-            } else {
-            <p class="mark"> @cell<p/>
+    @for((row, index) <- board.zipWithIndex) {
+        <tr>
+            @for((cell, position) <- row.zipWithIndex) {
+                <th class="cell">
+                    @if(cell == " ") {
+                        <form METHOD="post" action="/new-move">
+                            <input type="hidden" value="@index" name="rowNumber"/>
+                            <input type="hidden" value="@position" name="cellPosition"/>
+                            <input type="submit" class="cellButton" value=" "/>
+                        </form>
+                    } else {
+                        <p class="mark"> @cell<p/>
+                    }
+                </th>
             }
-        </th>
-        }
-    </tr>
+        </tr>
     }
 </table>
-<section>
+
+<section id="gamestatus">
     @if(isFinished) {
-        <p>@status<p>
+        <p id="status">@status</p>
     }
 </section>
 </body>
-
 }

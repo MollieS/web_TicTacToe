@@ -8,7 +8,10 @@ import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Result;
 import play.test.WithApplication;
+import services.WebPlayer;
+import ttt.game.Board;
 import ttt.game.GameEngine;
+import ttt.game.Marks;
 import ttt.players.PerfectPlayer;
 
 import java.util.HashMap;
@@ -47,17 +50,22 @@ public class GameControllerTest extends WithApplication {
     @Test
     public void gamePageShowsBoard() {
         setUpGame(1);
+        String stringBoard = "0, 1, 2, 3, 4, 5, 6, 7, 8";
+        Map<String,String> form = new HashMap<>();
+        form.put("board", stringBoard);
+        route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         Result result = route(routes.GameController.showBoard());
         int cells = StringUtils.countMatches(contentAsString(result), "th class=\"cell\"");
         assertTrue(cells == 9);
     }
 
     @Test
-    public void canAddAMarkToBoard() {
+    public void canDisplayMarkOnBoard() {
         setUpGame(1);
         Map<String, String> form = new HashMap<String, String>();
         form.put("rowNumber", "0");
         form.put("cellPosition", "0");
+        form.put("board", "0, 1, 2, 3, 4, 5, 6, 7, 8");
         route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
         Result result = route(routes.GameController.showBoard());
         assertTrue(contentAsString(result).contains("<p class=\"mark\"> X"));
