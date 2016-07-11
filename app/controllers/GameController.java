@@ -18,6 +18,7 @@ public class GameController extends Controller {
     private GameEngine game;
     private String gametype;
     private GameLoop gameLoop;
+    private int boardSize;
 
     public GameController() {
         this.gametype = null;
@@ -27,6 +28,17 @@ public class GameController extends Controller {
         String stringBoard = getBoard();
         List<List<String>> rows = gameLoop.getRows();
         return ok(board.render(rows, stringBoard, game.currentMark().toString(), gametype, gameLoop.isFinished(), gameLoop.getStatus()));
+    }
+
+    public Result newBoard() {
+        Map<String, String[]> request = request().body().asFormUrlEncoded();
+        String size = request.get("size")[0];
+        if (("3 x 3").equals(size)) {
+            boardSize = 1;
+        } else {
+            boardSize = 2;
+        }
+        return redirect("/");
     }
 
     private String getBoard() {
@@ -53,7 +65,7 @@ public class GameController extends Controller {
     }
 
     public GameEngine createGame(Integer type, String gameType) {
-        GameEngine game = GameConstructor.create(Arrays.asList(type, 1), new WebInput());
+        GameEngine game = GameConstructor.create(Arrays.asList(type, boardSize), new WebInput());
         this.game = game;
         this.gametype = gameType;
         return game;
@@ -74,6 +86,6 @@ public class GameController extends Controller {
     }
 
     private int getMove(int row, int column) {
-        return column + (row * 3);
+        return column + (row * game.showBoard().dimensions());
     }
 }
