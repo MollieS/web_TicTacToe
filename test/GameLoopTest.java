@@ -77,7 +77,7 @@ public class GameLoopTest {
         gameLoop.setPlayerMove(player1.getLocation(board));
         gameLoop.playMove();
         assertTrue(gameLoop.isFinished());
-        assertEquals("It's a draw!", loop.getStatus());
+        assertEquals("It's a draw", gameLoop.getStatus());
     }
 
     @Test
@@ -91,6 +91,7 @@ public class GameLoopTest {
         loop.setPlayerMove(4);
         loop.playMove();
         loop.setPlayerMove(2);
+        loop.playMove();
         assertTrue(loop.isFinished());
         assertEquals("X wins!", loop.getStatus());
     }
