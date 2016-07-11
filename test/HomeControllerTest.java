@@ -42,4 +42,34 @@ public class HomeControllerTest extends WithApplication {
         Result result = route(routes.HomeController.index());
         assertTrue(contentAsString(result).contains("Perfect Player v Perfect Player"));
     }
+
+    @Test
+    public void canChooseHumanPlayerVRandomPlayer() {
+        Result result = route(routes.HomeController.index());
+        assertTrue(contentAsString(result).contains("Human v Random Player"));
+    }
+
+    @Test
+    public void canChooseRandomPlayerVHumanGame() {
+        Result result = route(routes.HomeController.index());
+        assertTrue(contentAsString(result).contains("Random Player v Human"));
+    }
+
+    @Test
+    public void canChooseRandomPlayerVRandomPlayer() {
+        Result result = route(routes.HomeController.index());
+        assertTrue(contentAsString(result).contains("Random Player v Random Player"));
+    }
+
+    @Test
+    public void canChooseRandomPlayerVPerfectPlayer() {
+        Result result = route(routes.HomeController.index());
+        assertTrue(contentAsString(result).contains("Random Player v Perfect Player"));
+    }
+
+    @Test
+    public void canChoosePerfectPlayerVRandomPlayer() {
+        Result result = route(routes.HomeController.index());
+        assertTrue(contentAsString(result).contains("Perfect Player v Random Player"));
+    }
 }
