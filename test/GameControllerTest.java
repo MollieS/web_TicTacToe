@@ -73,19 +73,6 @@ public class GameControllerTest extends WithApplication {
         assertTrue(contentAsString(result).contains("<p class=\"mark\"> X"));
     }
 
-
-    @Test
-    public void canPlayAGame() {
-        setUpGame(1);
-        Map form = new HashMap<>();
-        form.put("rowNumber", "0");
-        form.put("cellPosition", "2");
-        form.put("board", "X,X, ,O,O, , , , ");
-        route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
-        Result result = route(routes.GameController.showBoard());
-        assertTrue(contentAsString(result).contains("X wins!"));
-    }
-
     @Test
     public void createsAHumanVHumanGame() {
         Map form = new HashMap();

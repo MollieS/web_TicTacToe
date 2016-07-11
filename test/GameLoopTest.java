@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GameLoopTest {
 
@@ -64,5 +65,33 @@ public class GameLoopTest {
         gameLoop.setPlayerMove(0);
         gameLoop.playMove();
         assertEquals("X, , , ,O, , , , ", gameLoop.getBoard());
+    }
+
+    @Test
+    public void knowsWhenAGameIsDrawn() throws Exception {
+        Player player1 = new PerfectPlayer(Marks.X);
+        Player player2 = new PerfectPlayer(Marks.O);
+        Board board = new Board(3);
+        GameEngine game = new GameEngine(player1, player2, board);
+        GameLoop gameLoop = new GameLoop(game);
+        gameLoop.setPlayerMove(player1.getLocation(board));
+        gameLoop.playMove();
+        assertTrue(gameLoop.isFinished());
+        assertEquals("It's a draw!", loop.getStatus());
+    }
+
+    @Test
+    public void knowsWhenGameIsWon() {
+        loop.setPlayerMove(0);
+        loop.playMove();
+        loop.setPlayerMove(3);
+        loop.playMove();
+        loop.setPlayerMove(1);
+        loop.playMove();
+        loop.setPlayerMove(4);
+        loop.playMove();
+        loop.setPlayerMove(2);
+        assertTrue(loop.isFinished());
+        assertEquals("X wins!", loop.getStatus());
     }
 }

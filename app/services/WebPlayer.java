@@ -18,10 +18,6 @@ public class WebPlayer implements Player {
         return mark;
     }
 
-    public void setMove(int row, int column) {
-        this.move =  column + (row * 3);
-    }
-
     public int getLocation(Board board) throws Exception {
         int turn = move;
         this.move = null;

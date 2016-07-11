@@ -14,12 +14,14 @@ public class GameLoop {
     private GameEngine game;
     private List<List<Marks>> rows;
     private Integer nextMove;
+    private String status;
 
     public GameLoop(GameEngine game) {
         this.board = " , , , , , , , , ";
         this.game = game;
         this.rows = game.showBoard().getRows();
         this.nextMove = null;
+        this.status = "In progress";
     }
 
     public void setPlayerMove(Integer move) {
@@ -36,29 +38,28 @@ public class GameLoop {
         return allRows;
     }
 
-
     public void playMove() {
         while (nextMove != null) {
             game.play(nextMove);
-            nextMove = null;
-            try {
-                nextMove = game.getCurrentPlayer().getLocation(game.showBoard());
-            } catch (Exception e) {
-                e.getMessage();
-            }
-            this.rows = game.showBoard().getRows();
+            getNextPlayerMove();
             updateBoard();
         }
     }
 
-    public int getNextMove() {
-        return nextMove;
+    private void getNextPlayerMove() {
+        nextMove = null;
+        try {
+            nextMove = game.getCurrentPlayer().getLocation(game.showBoard());
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     private void updateBoard() {
         String board = "";
         board = convertBoardToString(board);
         this.board = board;
+        this.rows = game.showBoard().getRows();
     }
 
     private String convertBoardToString(String board) {
@@ -102,5 +103,18 @@ public class GameLoop {
         } else {
             row.add(cell.toString());
         }
+    }
+
+    public boolean isFinished() {
+        return game.isOver();
+    }
+
+    public String getStatus() {
+        if (game.isDraw()) {
+            status = "It's a draw";
+        } else if (game.isWon()) {
+            status = game.winningMark().toString() + " wins!";
+        }
+        return status;
     }
 }
