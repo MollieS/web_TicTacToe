@@ -6,8 +6,12 @@ import play.test.WithApplication;
 
 import controllers.routes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertTrue;
 import static play.test.Helpers.contentAsString;
+import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 
 public class HomeControllerTest extends WithApplication {
@@ -71,5 +75,12 @@ public class HomeControllerTest extends WithApplication {
     public void canChoosePerfectPlayerVRandomPlayer() {
         Result result = route(routes.HomeController.index());
         assertTrue(contentAsString(result).contains("Perfect Player v Random Player"));
+    }
+
+    @Test
+    public void canChooseBoardSize() {
+        Result result = route(routes.HomeController.index());
+        assertTrue(contentAsString(result).contains("3 x 3"));
+        assertTrue(contentAsString(result).contains("4 x 4"));
     }
 }

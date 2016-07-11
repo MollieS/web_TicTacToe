@@ -3,7 +3,14 @@
 @main("Tic Tac Toe") {
 
 <h1>Tic Tac Toe</h1>
-<section>
+<section id="boardSize">
+    <form method="post" action="/new-board">
+        <input type="submit" value="3 x 3" name="size"/>
+        <input type="submit" value="4 x 4" name="size"/>
+    </form>
+</section>
+
+<section id="gametype">
     @for(entry <- options) {
     <form method="post" action="/new-game">
         <input type="hidden" value="@entry._2" name="name"/>

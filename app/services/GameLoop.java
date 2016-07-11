@@ -9,7 +9,6 @@ import java.util.List;
 
 public class GameLoop {
 
-
     private String board;
     private GameEngine game;
     private List<List<Marks>> rows;
@@ -39,7 +38,7 @@ public class GameLoop {
     }
 
     public void playMove() {
-        while (nextMove != null) {
+        while (nextMove != null && !game.isOver()) {
             game.play(nextMove);
             getNextPlayerMove();
             updateBoard();
@@ -48,10 +47,12 @@ public class GameLoop {
 
     private void getNextPlayerMove() {
         nextMove = null;
-        try {
-            nextMove = game.getCurrentPlayer().getLocation(game.showBoard());
-        } catch (Exception e) {
-            e.getMessage();
+        if (!game.isOver()) {
+            try {
+                nextMove = game.getCurrentPlayer().getLocation(game.showBoard());
+            } catch (Exception e) {
+                e.getMessage();
+            }
         }
     }
 
