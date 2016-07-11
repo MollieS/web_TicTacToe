@@ -19,6 +19,8 @@ public class HomeController extends Controller {
         OPTIONS.put("2", "Human v Random Player");
         OPTIONS.put("3", "Random Player v Human");
         OPTIONS.put("9", "Random Player v Random Player");
+        OPTIONS.put("7", "Perfect Player v Random Player");
+        OPTIONS.put("8", "Random Player v Perfect Player");
     }
 
     public Result index() {
