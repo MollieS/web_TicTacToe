@@ -7,7 +7,6 @@
 
 <h3 id="gametype">@gameType</h3>
 
-<p id="currentplayer">@currentPlayer's turn</p>
 
 <table id="board">
     @for((row, index) <- board.zipWithIndex) {
@@ -33,6 +32,8 @@
 <section id="gamestatus">
     @if(isFinished) {
         <p id="status">@status</p>
+    } else {
+        <p id="currentplayer">@currentPlayer's turn</p>
     }
 </section>
 </body>
