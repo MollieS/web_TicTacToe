@@ -1,11 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
 import services.GameLoop;
-import services.WebPlayer;
+import services.WebInput;
 import ttt.Player;
 import ttt.game.Board;
 import ttt.game.GameEngine;
 import ttt.game.Marks;
+import ttt.players.HumanPlayer;
 import ttt.players.PerfectPlayer;
 
 import java.util.Arrays;
@@ -21,8 +22,8 @@ public class GameLoopTest {
     @Before
     public void setUp() {
         Board board = new Board(3);
-        Player player1 = new WebPlayer(Marks.X);
-        Player player2 = new WebPlayer(Marks.O);
+        Player player1 = new HumanPlayer(Marks.X, new WebInput(), 3);
+        Player player2 = new HumanPlayer(Marks.O, new WebInput(), 3);
         GameEngine game = new GameEngine(player1, player2, board);
         this.loop = new GameLoop(game);
     }
@@ -57,7 +58,7 @@ public class GameLoopTest {
 
     @Test
     public void canPlayAPerfectPlayer() {
-        Player player1 = new WebPlayer(Marks.X);
+        Player player1 = new HumanPlayer(Marks.X, new WebInput(), 3);
         Player player2 = new PerfectPlayer(Marks.O);
         Board board = new Board(3);
         GameEngine game = new GameEngine(player1, player2, board);

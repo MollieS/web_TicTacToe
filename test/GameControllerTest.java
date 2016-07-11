@@ -1,18 +1,10 @@
-import controllers.GameController;
 import controllers.routes;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jetty.util.StringUtil;
-import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Result;
 import play.test.WithApplication;
-import services.WebPlayer;
-import ttt.game.Board;
-import ttt.game.GameEngine;
-import ttt.game.Marks;
-import ttt.players.PerfectPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
