@@ -115,6 +115,36 @@ public class GameControllerTest extends WithApplication {
         assertTrue(contentAsString(result).contains("O's turn"));
     }
 
+    @Test
+    public void canCreateAHumanVRandomPlayerGame() {
+        Map form = new HashMap();
+        form.put("type", "2");
+        form.put("name", "Human v Random Player");
+        route(fakeRequest(routes.GameController.newGame()).bodyForm(form));
+        Result result = route(routes.GameController.showBoard());
+        assertTrue(contentAsString(result).contains("Human v Random Player"));
+    }
+
+    @Test
+    public void canCreateRandomComputerVRandomComputerGame() {
+        Map form = new HashMap();
+        form.put("type", "9");
+        form.put("name", "Random Player v Random Player");
+        route(fakeRequest(routes.GameController.newGame()).bodyForm(form));
+        Result result = route(routes.GameController.showBoard());
+        assertTrue(contentAsString(result).contains("Random Player v Random Player"));
+    }
+
+    @Test
+    public void canCreateRandomComputerVHumanGame() {
+        Map form = new HashMap();
+        form.put("type", "3");
+        form.put("name", "Random Player v Human");
+        route(fakeRequest(routes.GameController.newGame()).bodyForm(form));
+        Result result = route(routes.GameController.showBoard());
+        assertTrue(contentAsString(result).contains("Random Player v Human"));
+    }
+
     private void setUpGame(int gameType) {
         Map form = new HashMap();
         form.put("type", String.valueOf(gameType));
