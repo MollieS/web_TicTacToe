@@ -1,18 +1,10 @@
-import controllers.GameController;
 import controllers.routes;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jetty.util.StringUtil;
-import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Result;
 import play.test.WithApplication;
-import services.WebPlayer;
-import ttt.game.Board;
-import ttt.game.GameEngine;
-import ttt.game.Marks;
-import ttt.players.PerfectPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,18 +18,11 @@ import static play.test.Helpers.route;
 
 public class GameControllerTest extends WithApplication {
 
-    private GameController controller;
-
     @Override
     protected Application provideApplication() {
         return new GuiceApplicationBuilder()
                 .configure("play.http.router", "router.Routes")
                 .build();
-    }
-
-    @Before
-    public void setUp() {
-        this.controller = new GameController();
     }
 
     @Test
@@ -59,6 +44,20 @@ public class GameControllerTest extends WithApplication {
         Result result = route(routes.GameController.showBoard());
         int cells = StringUtils.countMatches(contentAsString(result), "th class=\"cell\"");
         assertTrue(cells == 9);
+    }
+
+    @Test
+    public void gamePageShowsBigBoard() {
+        setUpBigBoard();
+        String stringBoard = " , , , , , , , , ";
+        Map<String,String> form = new HashMap<>();
+        form.put("board", stringBoard);
+        form.put("rowNumber", "0");
+        form.put("cellPosition", "0");
+        route(fakeRequest(routes.GameController.placeMark()).bodyForm(form));
+        Result result = route(routes.GameController.showBoard());
+        int cells = StringUtils.countMatches(contentAsString(result), "th class=\"cell\"");
+        assertEquals(16, cells);
     }
 
     @Test
@@ -147,7 +146,18 @@ public class GameControllerTest extends WithApplication {
 
     private void setUpGame(int gameType) {
         Map form = new HashMap();
+        form.put("size", "3 x 3");
+        route(fakeRequest(routes.GameController.newBoard()).bodyForm(form));
         form.put("type", String.valueOf(gameType));
+        form.put("name", "Human v Human");
+        route(fakeRequest(routes.GameController.newGame()).bodyForm(form));
+    }
+
+    private void setUpBigBoard() {
+        Map form = new HashMap();
+        form.put("size", "4 x 4");
+        route(fakeRequest(routes.GameController.newBoard()).bodyForm(form));
+        form.put("type", "1");
         form.put("name", "Human v Human");
         route(fakeRequest(routes.GameController.newGame()).bodyForm(form));
     }
