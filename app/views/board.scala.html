@@ -1,44 +1,39 @@
-@import ttt.game.Marks
-@import ttt.game.Board
-@import ttt.game.GameEngine
-
-@(board: Board, game: GameEngine)
+@(board: List[List[String]], currentBoard: String, currentPlayer: String,  gameType: String, isFinished: Boolean, status: String)
 
 @main("Tic Tac Toe") {
-    <body>
-        <h1>Tic Tac Toe</h1>
 
-        <table id="board">
-        @for((row, index) <- board.getRows.zipWithIndex) {
-            <tr>
+<body>
+<h1>Tic Tac Toe</h1>
+
+<h3 id="gametype">@gameType</h3>
+
+<p id="currentplayer">@currentPlayer's turn</p>
+
+<table id="board">
+    @for((row, index) <- board.zipWithIndex) {
+        <tr>
             @for((cell, position) <- row.zipWithIndex) {
                 <th class="cell">
-                @if(cell == Marks.NULL) {
-                    @if(!game.isOver) {
-                        <form METHOD="post" action="/newMove">
+                    @if(cell == " ") {
+                        <form METHOD="post" action="/new-move">
                             <input type="hidden" value="@index" name="rowNumber"/>
                             <input type="hidden" value="@position" name="cellPosition"/>
-                            <input type="submit" class="cellButton" value=" "/>
+                            <input type="hidden" value="@currentBoard" name="board"/>
+                            <input type="submit" class="cellButton" value="@cell"/>
                         </form>
                     } else {
-                        <p class="mark"> </p>
+                        <p class="mark"> @cell<p/>
                     }
-                } else {
-                    <p class="mark"> @cell <p/>
-                }
                 </th>
             }
-            </tr>
-        }
-        </table>
-        <section>
-        @if(game.isOver) {
-            @if(game.isWon) {
-                <p>@game.winningMark() wins!<p>
-            } else {
-                <p>It's a draw!</p>
-            }
-        }
-        </section>
-    </body>
+        </tr>
+    }
+</table>
+
+<section id="gamestatus">
+    @if(isFinished) {
+        <p id="status">@status</p>
+    }
+</section>
+</body>
 }
