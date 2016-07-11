@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 import services.WebPlayer;
 import ttt.game.Marks;
@@ -5,6 +6,13 @@ import ttt.game.Marks;
 import static org.junit.Assert.assertEquals;
 
 public class WebPlayerTest {
+
+    private WebPlayer player;
+
+    @Before
+    public void setUp() {
+        this.player = new WebPlayer(Marks.X);
+    }
 
     @Test
     public void hasAMark() {
