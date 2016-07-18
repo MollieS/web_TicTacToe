@@ -5,19 +5,21 @@
 <h1>Tic Tac Toe</h1>
 <section id="boardSize">
     <form method="post" action="/new-board">
-        <input type="submit" value="3 x 3" name="size"/>
-        <input type="submit" value="4 x 4" name="size"/>
+        <input type="radio" value="3 x 3" name="size"/>3 x 3<br/>
+        <input type="radio" value="4 x 4" name="size"/>4 x 4<br/>
+        <input type="submit" value="choose board"/>
     </form>
 </section>
 
 <section id="gametype">
-    @for(entry <- options) {
     <form method="post" action="/new-game">
+        @for(entry <- options) {
         <input type="hidden" value="@entry._2" name="name"/>
         <input type="hidden" value="@entry._1" name="type"/>
-        <input type="submit" value="@entry._2"/>
+        <input type="radio" value="@entry._2"/>@entry._2<br/>
+        }
+        <input type="submit" value="play!"/>
     </form>
-    }
 </section>
 
 }

@@ -1,40 +1,32 @@
-@(board: List[List[String]], currentBoard: String, currentPlayer: String,  gameType: String, isFinished: Boolean, status: String)
+@import services.BoardPresenter
+
+@(boardPresenter: BoardPresenter)
 
 @main("Tic Tac Toe") {
 
 <body>
 <h1>Tic Tac Toe</h1>
 
-<h3 id="gametype">@gameType</h3>
+<h3>@boardPresenter.gameType</h3>
 
 
-<table id="board">
-    @for((row, index) <- board.zipWithIndex) {
-        <tr>
-            @for((cell, position) <- row.zipWithIndex) {
-                <th class="cell">
-                    @if(cell == " ") {
-                        <form METHOD="post" action="/new-move">
-                            <input type="hidden" value="@index" name="rowNumber"/>
-                            <input type="hidden" value="@position" name="cellPosition"/>
-                            <input type="hidden" value="@currentBoard" name="board"/>
-                            <input type="submit" class="cellButton" value="@cell"/>
-                        </form>
-                    } else {
-                        <p class="mark"> @cell<p/>
-                    }
-                </th>
-            }
-        </tr>
-    }
-</table>
-
-<section id="gamestatus">
-    @if(isFinished) {
-        <p id="status">@status</p>
-    } else {
-        <p id="currentplayer">@currentPlayer's turn</p>
+<section class="board">
+    @for((cell, index) <- boardPresenter.showBoard.zipWithIndex) {
+    <div id="cell@index">
+        <form method="post" action="/new-move" id="getposition">
+            <input type="hidden" value="@index" name="position">
+            <input type="submit" value="@cell">
+        </form>
+    </div>
     }
 </section>
+
+
+<div>@boardPresenter.gameStatus</div>
+
+<form method="get" action="/game" id="next-move">
+    <button><input type="submit" value="next moves"></button>
+</form>
+
 </body>
 }
