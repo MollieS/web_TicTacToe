@@ -68,7 +68,7 @@ public class GameController extends Controller {
 
     private void updateBoard() {
             try {
-                gameLoop.setNextMove(game.getCurrentPlayer().getLocation(game.showBoard()));
+                gameLoop.setNextMove(game.getPlayerMove(game.showBoard()));
                 gameLoop.playMoves();
             } catch (Exception e) {
                 e.getMessage();

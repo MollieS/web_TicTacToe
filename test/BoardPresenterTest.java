@@ -5,8 +5,11 @@ import ttt.Player;
 import ttt.game.Board;
 import ttt.game.GameEngine;
 import ttt.game.Marks;
+import ttt.players.PerfectPlayer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class BoardPresenterTest {
 
@@ -85,14 +88,36 @@ public class BoardPresenterTest {
         assertEquals("Human v Human", boardPresenter.gameType());
     }
 
+    @Test
+    public void knowsIfGameIsNonInteractive() {
+        BoardPresenter boardPresenter = createPresenter(3, "Perfect Player v Perfect Player");
+        assertFalse(boardPresenter.gameIsInteractive());
+    }
+
+    @Test
+    public void knowsIfGameIsInteractive() {
+        BoardPresenter boardPresenter = createPresenter(3, "Human v Perfect Player");
+        assertTrue(boardPresenter.gameIsInteractive());
+    }
+
     private BoardPresenter createPresenter(int boardSize, String gameType) {
         Board board = new Board(boardSize);
-        return new BoardPresenter(board, createGame(board), gameType);
+        if (gameType.contains("Human")) {
+            return new BoardPresenter(board, createGame(board), gameType);
+        } else {
+            return new BoardPresenter(board, createComputerVComputerGame(board), gameType);
+        }
     }
 
     private GameEngine createGame(Board board) {
         Player player = new WebPlayer(Marks.X);
         Player player2 = new WebPlayer(Marks.O);
+        return new GameEngine(player, player2, board);
+    }
+
+    private GameEngine createComputerVComputerGame(Board board) {
+        Player player = new PerfectPlayer(Marks.X);
+        Player player2 = new PerfectPlayer(Marks.O);
         return new GameEngine(player, player2, board);
     }
 }

@@ -24,9 +24,11 @@
 
 <div>@boardPresenter.gameStatus</div>
 
+@if(!boardPresenter.gameIsInteractive) {
 <form method="get" action="/game" id="next-move">
-    <button><input type="submit" value="next moves"></button>
+    <input type="submit" value="next moves">
 </form>
+}
 
 </body>
 }

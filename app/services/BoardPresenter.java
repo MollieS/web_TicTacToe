@@ -43,4 +43,11 @@ public class BoardPresenter {
     public String gameType() {
         return gameType;
     }
+
+    public boolean gameIsInteractive() {
+        if (gameType.contains("Human")) {
+            return true;
+        }
+        return false;
+    }
 }
