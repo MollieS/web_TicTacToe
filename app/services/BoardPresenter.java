@@ -21,22 +21,27 @@ public class BoardPresenter {
 
     public List<String> showBoard() {
         List<String> stringBoard = new ArrayList<>();
-        for (int i = 0; i < board.size(); i++) {
-            if (board.getMarkAt(i).equals(Marks.NULL)) {
-                stringBoard.add(" ");
-            } else {
-                stringBoard.add(board.getMarkAt(i).toString());
-            }
-        }
+        convertBoardToString(stringBoard);
         return stringBoard;
     }
 
-    public String gameStatus() {
-        if (game.isWon()) {
-            return game.winningMark() + " wins!";
-        } else if (game.isDraw()) {
-            return "It's a draw!";
+    private void convertBoardToString(List<String> stringBoard) {
+        for (int i = 0; i < board.size(); i++) {
+            showCorrectCell(stringBoard, i);
         }
+    }
+
+    private void showCorrectCell(List<String> stringBoard, int i) {
+        if (board.getMarkAt(i).equals(Marks.NULL)) {
+            stringBoard.add(" ");
+        } else {
+            stringBoard.add(board.getMarkAt(i).toString());
+        }
+    }
+
+    public String gameStatus() {
+        if (game.isWon()) { return game.winningMark() + " wins!"; }
+        if (game.isDraw()) { return "It's a draw!"; }
         return game.currentMark() + "'s turn";
     }
 
@@ -45,10 +50,7 @@ public class BoardPresenter {
     }
 
     public boolean gameIsInteractive() {
-        if (gameType.contains("Human")) {
-            return true;
-        }
-        return false;
+        return gameType.contains("Human");
     }
 
     public int rowLength() {

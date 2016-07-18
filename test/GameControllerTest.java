@@ -1,5 +1,4 @@
 import controllers.routes;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -33,7 +32,7 @@ public class GameControllerTest extends WithApplication {
 
     private void setUpGame(int gameType) {
         Map form = new HashMap();
-        form.put("size", "3 x 3");
+        form.put("size", "3");
         route(fakeRequest(routes.GameController.newBoard()).bodyForm(form));
         form.put("type", String.valueOf(gameType));
         form.put("name", "Human v Human");
