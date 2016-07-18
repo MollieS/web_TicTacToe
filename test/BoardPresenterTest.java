@@ -100,6 +100,28 @@ public class BoardPresenterTest {
         assertTrue(boardPresenter.gameIsInteractive());
     }
 
+    @Test
+    public void knowsTheLengthOfEachRow() {
+        BoardPresenter boardPresenter = createPresenter(3, "Human v Human");
+        assertEquals(3, boardPresenter.rowLength());
+    }
+
+    @Test
+    public void knowsTheLenghtOfEachRowOnASmallBoard() {
+        BoardPresenter boardPresenter = createPresenter(4, "Human v Human");
+        assertEquals(4, boardPresenter.rowLength());
+    }
+
+    @Test
+    public void knowsIfACellIsTheEndOfARow() {
+        BoardPresenter boardPresenter = createPresenter(3, "Human v Human");
+        assertTrue(boardPresenter.isEndOfRow(2));
+        assertFalse(boardPresenter.isEndOfRow(3));
+        assertTrue(boardPresenter.isEndOfRow(5));
+        assertTrue(boardPresenter.isEndOfRow(8));
+    }
+
+
     private BoardPresenter createPresenter(int boardSize, String gameType) {
         Board board = new Board(boardSize);
         if (gameType.contains("Human")) {

@@ -12,12 +12,15 @@
 
 <section class="board">
     @for((cell, index) <- boardPresenter.showBoard.zipWithIndex) {
-    <div id="cell@index">
+    <div id="cell">
         <form method="post" action="/new-move" id="getposition">
             <input type="hidden" value="@index" name="position">
-            <input type="submit" value="@cell">
+            <input type="submit" value="@cell" class="cell-button">
         </form>
     </div>
+    @if(boardPresenter.isEndOfRow(index)) {
+    <br/>
+    }
     }
 </section>
 

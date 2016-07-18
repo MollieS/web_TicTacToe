@@ -50,4 +50,12 @@ public class BoardPresenter {
         }
         return false;
     }
+
+    public int rowLength() {
+        return board.dimensions();
+    }
+
+    public boolean isEndOfRow(int cell) {
+        return ((cell + 1) % rowLength() == 0);
+    }
 }
