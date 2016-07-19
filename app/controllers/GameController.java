@@ -2,9 +2,9 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.BoardMenuPresenter;
 import services.GameHelper;
-import ttt.game.BoardOption;
-import ttt.game.GameOption;
+import services.GameMenuPresenter;
 import views.html.board;
 import views.html.index;
 
@@ -17,19 +17,11 @@ public class GameController extends Controller {
     private GameHelper gameHelper;
 
     public Result chooseGame() {
-        HashMap<String, String> gameOptions = new HashMap<>();
-        for (GameOption option : GameOption.values()) {
-            gameOptions.put(option.key, option.title);
-        }
-        return ok(index.render("Tic Tac Toe", gameOptions, "/new-game"));
+        return ok(index.render("Tic Tac Toe", new GameMenuPresenter()));
     }
 
     public Result chooseBoard() {
-        HashMap<String, String> boardOptions = new HashMap<>();
-        for (BoardOption option : BoardOption.values()) {
-            boardOptions.put(option.key, option.title);
-        }
-        return ok(index.render("Tic Tac Toe", boardOptions, "/new-board"));
+        return ok(index.render("Tic Tac Toe", new BoardMenuPresenter()));
     }
 
     public Result showBoard() throws Exception {
