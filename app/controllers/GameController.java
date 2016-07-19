@@ -30,13 +30,9 @@ public class GameController extends Controller {
     }
 
     public Result newBoard() {
-        gameHelper = new GameHelper();
-        gameMap.put(String.valueOf(gameHelper.hashCode()), gameHelper);
-        session("game", String.valueOf(gameHelper.hashCode()));
-        Map<String, String[]> request = request().body().asFormUrlEncoded();
-        Integer size = Integer.valueOf(request.get("type")[0]);
+        createNewSession();
         GameHelper gameHelper = gameMap.get(session("game"));
-        gameHelper.setBoardSize(size);
+        gameHelper.setBoardSize(getBoardChoice());
         return redirect("/choose-game");
     }
 
@@ -55,5 +51,16 @@ public class GameController extends Controller {
         GameHelper gameHelper = gameMap.get(session("game"));
         gameHelper.playGame(move);
         return redirect("/game");
+    }
+
+    private Integer getBoardChoice() {
+        Map<String, String[]> request = request().body().asFormUrlEncoded();
+        return Integer.valueOf(request.get("type")[0]);
+    }
+
+    private void createNewSession() {
+        gameHelper = new GameHelper();
+        gameMap.put(String.valueOf(gameHelper.hashCode()), gameHelper);
+        session("game", String.valueOf(gameHelper.hashCode()));
     }
 }
