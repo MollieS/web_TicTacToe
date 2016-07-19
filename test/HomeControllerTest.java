@@ -1,6 +1,10 @@
+import controllers.HomeController;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.test.WithApplication;
 
@@ -16,6 +20,8 @@ import static play.test.Helpers.route;
 
 public class HomeControllerTest extends WithApplication {
 
+    private HomeController homeController;
+
     @Override
     protected Application provideApplication() {
         return new GuiceApplicationBuilder()
@@ -23,64 +29,19 @@ public class HomeControllerTest extends WithApplication {
                 .build();
     }
 
-    @Test
-    public void canChooseHumanVHumanGame() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Human v Human"));
+    @Before
+    public void setUp() {
+        this.homeController = new HomeController();
+    }
+
+    @After
+    public void tearDown() {
+        Http.Context.current.remove();
     }
 
     @Test
-    public void canChoosePerfectPlayerVHumanGame() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Perfect Player v Human"));
-    }
-
-    @Test
-    public void canChooseHumanVPerfectPlayer() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Human v Perfect Player"));
-    }
-
-    @Test
-    public void canChoosePerfectPlayerVPerfectPlayer() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Perfect Player v Perfect Player"));
-    }
-
-    @Test
-    public void canChooseHumanPlayerVRandomPlayer() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Human v Random Player"));
-    }
-
-    @Test
-    public void canChooseRandomPlayerVHumanGame() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Random Player v Human"));
-    }
-
-    @Test
-    public void canChooseRandomPlayerVRandomPlayer() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Random Player v Random Player"));
-    }
-
-    @Test
-    public void canChooseRandomPlayerVPerfectPlayer() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Random Player v Perfect Player"));
-    }
-
-    @Test
-    public void canChoosePerfectPlayerVRandomPlayer() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("Perfect Player v Random Player"));
-    }
-
-    @Test
-    public void canChooseBoardSize() {
-        Result result = route(routes.HomeController.index());
-        assertTrue(contentAsString(result).contains("3 x 3"));
-        assertTrue(contentAsString(result).contains("4 x 4"));
+    public void loadsIndexPage() {
+        Result result = homeController.index();
+        assertTrue(contentAsString(result).contains("Tic Tac Toe"));
     }
 }
