@@ -1,20 +1,12 @@
-@(message: String, options: Map[String, String])
+@(message: String, options: Map[String, String], endpoint: String)
 
 @main("Tic Tac Toe") {
 
 <h1>Tic Tac Toe</h1>
-<section id="boardSize">
-    <form method="post" action="/new-board">
-        <input type="hidden" value="3" name="size"/>
-        <input type="submit" value="3 x 3"/>
-        <input type="hidden" value="4" name="size"/>
-        <input type="submit" value="4 x 4"/>
-    </form>
-</section>
 
 <section id="gametype">
     @for(entry <- options) {
-    <form method="post" action="/new-game">
+    <form method="post" action="@endpoint">
         <input type="hidden" value="@entry._2" name="name"/>
         <input type="hidden" value="@entry._1" name="type"/>
         <input type="submit" value="@entry._2"/>

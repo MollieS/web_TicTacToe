@@ -4,8 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import play.Application;
+import play.api.test.FakeRequest;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Http;
+import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 import play.test.WithApplication;
 
@@ -13,7 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static play.mvc.Http.Status.OK;
+import static play.mvc.Http.Status.SEE_OTHER;
+import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 
@@ -39,28 +44,39 @@ public class GameControllerTest extends WithApplication {
     }
 
     @Test
-    public void loadsGamePage() {
-        setUpGame(1);
-        Result result = route(fakeRequest("GET", "/game"));
+    public void loadsBoardChoicePage() {
+        Result result = route(fakeRequest("GET", "/"));
         assertEquals(OK, result.status());
     }
 
+    @Test
+    public void showsBoardChoices() {
+        Result result = route(fakeRequest("GET", "/"));
+        assertTrue(contentAsString(result).contains("3x3"));
+    }
 
-    private void setUpGame(int gameType) {
-        Map form = new HashMap();
-        form.put("size", "3");
-        Http.RequestBuilder boardRequest = fakeRequest(routes.GameController.newBoard()).bodyForm(form);
-        Http.Context.current.set(new Http.Context(boardRequest));
+    @Test
+    public void choosingABoardRedirectsToGameChoice() {
+        Map<String, String> boardChoice = new HashMap<>();
+        boardChoice.put("type", "3");
 
-        gameController.newBoard();
+        Result boardResult = route(fakeRequest(routes.GameController.newBoard()).bodyForm(boardChoice));
 
-        form.put("type", String.valueOf(gameType));
-        form.put("name", "Human v Human");
-        Http.RequestBuilder gameRequest = fakeRequest(routes.GameController.newGame()).bodyForm(form);
+        assertEquals(SEE_OTHER, boardResult.status());
+        assertEquals("/choose-game", boardResult.header("Location").get());
+    }
 
-        Http.Context.current.set(new Http.Context(gameRequest));
+    @Test
+    public void loadsChooseGamePage() {
+        Result result = route(fakeRequest("GET", "/choose-game"));
+        assertEquals(OK, result.status());
+    }
 
-        gameController.newGame();
+    @Test
+    public void showsGameOptions() {
+        Result result = route(fakeRequest("GET", "/choose-game"));
+        assertTrue(contentAsString(result).contains("Human v Human"));
     }
 
 }
+
