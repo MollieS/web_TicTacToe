@@ -4,10 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import play.Application;
-import play.api.test.FakeRequest;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Http;
-import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 import play.test.WithApplication;
 
