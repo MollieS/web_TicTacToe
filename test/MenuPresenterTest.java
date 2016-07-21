@@ -1,22 +1,41 @@
+import org.junit.Before;
 import org.junit.Test;
 import services.BoardMenuPresenter;
 import services.GameMenuPresenter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MenuPresenterTest {
 
+    private BoardMenuPresenter boardMenuPresenter;
+
+    @Before
+    public void setUp() {
+        boardMenuPresenter = new BoardMenuPresenter();
+    }
+
     @Test
     public void convertsBoardOptionsToHash() {
-        BoardMenuPresenter presenter = new BoardMenuPresenter();
-        assertEquals("3x3", presenter.showOptions().get("3"));
-        assertEquals("4x4", presenter.showOptions().get("4"));
+        assertEquals("3x3", boardMenuPresenter.showOptions().get("3"));
+        assertEquals("4x4", boardMenuPresenter.showOptions().get("4"));
     }
 
     @Test
     public void knowsBoardEndpoint() {
-        BoardMenuPresenter presenter = new BoardMenuPresenter();
-        assertEquals("/new-board", presenter.getEndpoint());
+        assertEquals("/new-board", boardMenuPresenter.getEndpoint());
+    }
+
+    @Test
+    public void knowsIfOptionHasBeenChosen() {
+        boardMenuPresenter.chooseOption("3x3");
+        assertTrue(boardMenuPresenter.isChosen());
+    }
+
+    @Test
+    public void knowsTheChoiceName() {
+        boardMenuPresenter.chooseOption("4x4");
+        assertEquals("4x4", boardMenuPresenter.getOption());
     }
 
     @Test
@@ -30,4 +49,5 @@ public class MenuPresenterTest {
         GameMenuPresenter presenter = new GameMenuPresenter();
         assertEquals("/new-game", presenter.getEndpoint());
     }
+
 }

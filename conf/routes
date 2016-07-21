@@ -3,9 +3,8 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.GameController.chooseBoard
+GET     /                           controllers.GameController.showMenus
 GET     /game                       controllers.GameController.showBoard
-GET     /choose-game               controllers.GameController.chooseGame
 POST    /new-move                   controllers.GameController.placeMark
 POST    /new-game                   controllers.GameController.newGame
 POST    /new-board                  controllers.GameController.newBoard

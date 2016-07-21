@@ -1,19 +1,26 @@
 @import services.MenuPresenter
 
-@(message: String, presenter: MenuPresenter)
+@(message: String, menus: List[MenuPresenter])
 
 @main("Tic Tac Toe") {
 
 <h1>Tic Tac Toe</h1>
 
-<section id="gametype">
-    @for(entry <- presenter.showOptions) {
-    <form method="post" action="@presenter.getEndpoint">
+@for(menu <- menus) {
+
+<section id="menu">
+    @if(menu.isChosen) {
+        <p>you have chosen @menu.getOption</p>
+    }
+    @for(entry <- menu.showOptions) {
+    <form method="post" action="@menu.getEndpoint">
         <input type="hidden" value="@entry._2" name="name"/>
         <input type="hidden" value="@entry._1" name="type"/>
         <input type="submit" value="@entry._2"/>
     </form>
     }
 </section>
+
+}
 
 }

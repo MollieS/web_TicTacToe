@@ -54,26 +54,20 @@ public class GameControllerTest extends WithApplication {
     }
 
     @Test
-    public void choosingABoardRedirectsToGameChoice() {
+    public void showsGameChoices() {
+        Result result = route(fakeRequest("GET", "/"));
+        assertTrue(contentAsString(result).contains("Human v Human"));
+    }
+
+    @Test
+    public void choosingABoardRedirectsBackToMenuPage() {
         Map<String, String> boardChoice = new HashMap<>();
         boardChoice.put("type", "3");
+        boardChoice.put("name", "3x3");
 
         Result boardResult = route(fakeRequest(routes.GameController.newBoard()).bodyForm(boardChoice));
 
-        assertEquals(SEE_OTHER, boardResult.status());
-        assertEquals("/choose-game", boardResult.header("Location").get());
-    }
-
-    @Test
-    public void loadsChooseGamePage() {
-        Result result = route(fakeRequest("GET", "/choose-game"));
-        assertEquals(OK, result.status());
-    }
-
-    @Test
-    public void showsGameOptions() {
-        Result result = route(fakeRequest("GET", "/choose-game"));
-        assertTrue(contentAsString(result).contains("Human v Human"));
+        assertEquals("/", boardResult.header("Location").get());
     }
 
 }
