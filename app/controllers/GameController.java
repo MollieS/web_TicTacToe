@@ -22,8 +22,6 @@ public class GameController extends Controller {
     private BoardMenuPresenter boardMenu = new BoardMenuPresenter();
 
     public Result showMenus() {
-        System.out.println(boardMenu.isChosen());
-        System.out.println(boardMenu.getOption());
         List<MenuPresenter> menus = Arrays.asList(boardMenu, new GameMenuPresenter());
         return ok(index.render("Tic Tac Toe", menus));
     }
