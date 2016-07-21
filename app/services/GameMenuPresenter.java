@@ -23,4 +23,12 @@ public class GameMenuPresenter implements MenuPresenter {
     public String getEndpoint() {
         return endpoint;
     }
+
+    public boolean isChosen() {
+        return false;
+    }
+
+    public String getOption() {
+        return null;
+    }
 }

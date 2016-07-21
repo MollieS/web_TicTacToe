@@ -8,6 +8,7 @@ public class BoardMenuPresenter implements MenuPresenter {
 
 
     private final String endpoint;
+    private String choiceName;
 
     public BoardMenuPresenter() {
         this.endpoint = "/new-board";
@@ -23,5 +24,17 @@ public class BoardMenuPresenter implements MenuPresenter {
 
     public String getEndpoint() {
         return endpoint;
+    }
+
+    public void chooseOption(String choice) {
+        this.choiceName = choice;
+    }
+
+    public boolean isChosen() {
+        return choiceName != null;
+    }
+
+    public String getOption() {
+        return choiceName;
     }
 }
