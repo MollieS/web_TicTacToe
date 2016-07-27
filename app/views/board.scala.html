@@ -4,8 +4,13 @@
 
 @main("Tic Tac Toe") {
 
+<head>
+    @if(boardPresenter.gameIsInteractive) {
+        <meta http-equiv="refresh" content="1"></head>
+    }
 <body>
 <h1>Tic Tac Toe</h1>
+
 
 <h3>@boardPresenter.gameType</h3>
 
@@ -26,12 +31,6 @@
 
 
 <div>@boardPresenter.gameStatus</div>
-
-@if(!boardPresenter.gameIsInteractive) {
-<form method="get" action="/game" id="next-move">
-    <input type="submit" value="next moves">
-</form>
-}
 
 </body>
 }

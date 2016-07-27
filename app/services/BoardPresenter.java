@@ -12,11 +12,24 @@ public class BoardPresenter {
     private Board board;
     private GameEngine game;
     private String gameType;
+    private boolean isInteractive;
 
     public BoardPresenter(Board board, GameEngine game, String gameType) {
+        this.isInteractive = gameType.contains("Player");
         this.board = board;
         this.game = game;
         this.gameType = gameType;
+    }
+
+    public BoardPresenter(Board board, GameEngine game, String gameType, boolean interactive) {
+        this.isInteractive = interactive;
+        this.board = board;
+        this.game = game;
+        this.gameType = gameType;
+    }
+
+    public BoardPresenter update(Board board, boolean interactive) {
+        return new BoardPresenter(board, game, gameType, interactive);
     }
 
     public List<String> showBoard() {
@@ -50,7 +63,7 @@ public class BoardPresenter {
     }
 
     public boolean gameIsInteractive() {
-        return gameType.contains("Human");
+        return isInteractive;
     }
 
     public int rowLength() {

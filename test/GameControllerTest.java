@@ -4,10 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import play.Application;
-import play.api.test.FakeRequest;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.mvc.Http;
-import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 import play.test.WithApplication;
 
@@ -23,18 +21,11 @@ import static play.test.Helpers.route;
 
 public class GameControllerTest extends WithApplication {
 
-    private GameController gameController;
-
     @Override
     protected Application provideApplication() {
         return new GuiceApplicationBuilder()
                 .configure("play.http.router", "router.Routes")
                 .build();
-    }
-
-    @Before
-    public void setUp() {
-        this.gameController = new GameController();
     }
 
     @After
