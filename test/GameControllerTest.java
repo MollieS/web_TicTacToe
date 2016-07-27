@@ -1,7 +1,13 @@
+import controllers.GameController;
 import controllers.routes;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import play.Application;
+import play.api.test.FakeRequest;
 import play.inject.guice.GuiceApplicationBuilder;
+import play.mvc.Http;
+import play.mvc.Http.RequestBuilder;
 import play.mvc.Result;
 import play.test.WithApplication;
 
@@ -9,11 +15,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 
 public class GameControllerTest extends WithApplication {
+
+    private GameController gameController;
 
     @Override
     protected Application provideApplication() {
@@ -22,21 +32,41 @@ public class GameControllerTest extends WithApplication {
                 .build();
     }
 
+    @Before
+    public void setUp() {
+        this.gameController = new GameController();
+    }
+
+    @After
+    public void tearDown() {
+        Http.Context.current.remove();
+    }
+
     @Test
-    public void loadsGamePage() {
-        setUpGame(1);
-        Result result = route(fakeRequest("GET", "/game"));
+    public void loadsBoardChoicePage() {
+        Result result = route(fakeRequest("GET", "/"));
         assertEquals(OK, result.status());
     }
 
-
-    private void setUpGame(int gameType) {
-        Map form = new HashMap();
-        form.put("size", "3");
-        route(fakeRequest(routes.GameController.newBoard()).bodyForm(form));
-        form.put("type", String.valueOf(gameType));
-        form.put("name", "Human v Human");
-        route(fakeRequest(routes.GameController.newGame()).bodyForm(form));
+    @Test
+    public void showsBoardChoices() {
+        Result result = route(fakeRequest("GET", "/"));
+        assertTrue(contentAsString(result).contains("3x3"));
     }
 
+    @Test
+    public void showsGameChoices() {
+        Result result = route(fakeRequest("GET", "/"));
+        assertTrue(contentAsString(result).contains("Human v Human"));
+    }
+
+    @Test
+    public void choosingABoardRedirectsBackToMenuPage() {
+        Map<String, String> boardChoice = new HashMap<>();
+        boardChoice.put("type", "3");
+        boardChoice.put("name", "3x3");
+        Result boardResult = route(fakeRequest(routes.GameController.newBoard()).bodyForm(boardChoice));
+        assertEquals("/", boardResult.header("Location").get());
+    }
 }
+
