@@ -9,10 +9,12 @@ import static org.junit.Assert.assertTrue;
 public class MenuPresenterTest {
 
     private BoardMenuPresenter boardMenuPresenter;
+    private GameMenuPresenter gameMenuPresenter;
 
     @Before
     public void setUp() {
         boardMenuPresenter = new BoardMenuPresenter();
+        gameMenuPresenter = new GameMenuPresenter();
     }
 
     @Test
@@ -40,14 +42,11 @@ public class MenuPresenterTest {
 
     @Test
     public void convertsGameOptionsToHash() {
-        GameMenuPresenter presenter = new GameMenuPresenter();
-        assertEquals("Human v Human", presenter.showOptions().get("1"));
+        assertEquals("Human v Human", gameMenuPresenter.showOptions().get("1"));
     }
 
     @Test
     public void knowsGameEndpoint() {
-        GameMenuPresenter presenter = new GameMenuPresenter();
-        assertEquals("/new-game", presenter.getEndpoint());
+        assertEquals("/new-game", gameMenuPresenter.getEndpoint());
     }
-
 }

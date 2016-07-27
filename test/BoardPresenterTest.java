@@ -36,10 +36,6 @@ public class BoardPresenterTest {
     @Test
     public void knowsTheStatusOfTheGame() {
         BoardPresenter boardPresenter = createPresenter(3, "Human");
-        Board board = new Board(4);
-        Player player = new WebPlayer(Marks.X);
-        Player player2 = new WebPlayer(Marks.O);
-        GameEngine game = new GameEngine(player, player2, board);
         assertEquals("X's turn", boardPresenter.gameStatus());
     }
 

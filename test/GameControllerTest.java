@@ -56,11 +56,8 @@ public class GameControllerTest extends WithApplication {
         Map<String, String> boardChoice = new HashMap<>();
         boardChoice.put("type", "3");
         boardChoice.put("name", "3x3");
-
         Result boardResult = route(fakeRequest(routes.GameController.newBoard()).bodyForm(boardChoice));
-
         assertEquals("/", boardResult.header("Location").get());
     }
-
 }
 

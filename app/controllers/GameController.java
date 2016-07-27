@@ -38,31 +38,33 @@ public class GameController extends Controller {
     }
 
     public Result newGame() {
-        Map<String, String[]> request = request().body().asFormUrlEncoded();
-        Integer type = Integer.valueOf(request.get("type")[0]);
-        String gameType = request.get("name")[0];
+        Integer type = Integer.valueOf(getParameter("type"));
+        String gameType = getParameter("name");
         gameHelper = gameMap.get(session("game"));
         gameHelper.createGame(type, gameType);
         return redirect("/game");
     }
 
     public Result placeMark() {
-        Map<String, String[]> request = request().body().asFormUrlEncoded();
-        Integer move = Integer.valueOf(request.get("position")[0]);
+        Integer move = Integer.valueOf(getParameter("position"));
         GameHelper gameHelper = gameMap.get(session("game"));
         gameHelper.playGame(move);
         return redirect("/game");
     }
 
     private Integer getBoardChoice() {
-        Map<String, String[]> request = request().body().asFormUrlEncoded();
-        boardMenu.chooseOption(request.get("name")[0]);
-        return Integer.valueOf(request.get("type")[0]);
+        boardMenu.chooseOption(getParameter("name"));
+        return Integer.valueOf(getParameter("type"));
     }
 
     private void createNewSession() {
         gameHelper = new GameHelper();
         gameMap.put(String.valueOf(gameHelper.hashCode()), gameHelper);
         session("game", String.valueOf(gameHelper.hashCode()));
+    }
+
+    private String getParameter(String parameter) {
+        Map<String, String[]> request = request().body().asFormUrlEncoded();
+        return request.get(parameter)[0];
     }
 }

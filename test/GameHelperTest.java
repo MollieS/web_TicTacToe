@@ -49,5 +49,4 @@ public class GameHelperTest {
         gameHelper.playGame(0);
         assertEquals(gameHelper.getPresenter().showBoard(), Arrays.asList("X", " ", " ", " ", " ", " ", " ", " ", " "));
     }
-
 }
