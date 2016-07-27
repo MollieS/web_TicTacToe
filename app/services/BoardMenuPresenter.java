@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 public class BoardMenuPresenter implements MenuPresenter {
 
-
     private final String endpoint;
     private String choiceName;
 
