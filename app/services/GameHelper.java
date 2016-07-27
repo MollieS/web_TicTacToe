@@ -33,7 +33,7 @@ public class GameHelper {
     public void playGame(Integer move) {
         gameLoop.setNextMove(move);
         gameLoop.playMoves();
-        presenter = new BoardPresenter(game.showBoard(), game, gameType);
+        presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
     }
 
     public GameEngine getGame() {
@@ -43,7 +43,7 @@ public class GameHelper {
 
     private void createBoardPresenter() {
         setMoves();
-        presenter = new BoardPresenter(game.showBoard(), game, gameType);
+        presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
     }
 
     public void setBoardSize(int size) {

@@ -2,7 +2,6 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.mvc.WebSocket;
 import services.BoardMenuPresenter;
 import services.GameHelper;
 import services.GameMenuPresenter;

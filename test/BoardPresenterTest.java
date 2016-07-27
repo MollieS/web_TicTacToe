@@ -90,7 +90,7 @@ public class BoardPresenterTest {
 
     @Test
     public void knowsIfGameIsNonInteractive() {
-        BoardPresenter boardPresenter = createPresenter(3, "Perfect Player v Perfect Player");
+        BoardPresenter boardPresenter = createPresenter(3, "Human v Human");
         assertFalse(boardPresenter.gameIsInteractive());
     }
 

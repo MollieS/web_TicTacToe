@@ -15,25 +15,17 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static play.mvc.Http.Status.OK;
-import static play.mvc.Http.Status.SEE_OTHER;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 
 public class GameControllerTest extends WithApplication {
 
-    private GameController gameController;
-
     @Override
     protected Application provideApplication() {
         return new GuiceApplicationBuilder()
                 .configure("play.http.router", "router.Routes")
                 .build();
-    }
-
-    @Before
-    public void setUp() {
-        this.gameController = new GameController();
     }
 
     @After
