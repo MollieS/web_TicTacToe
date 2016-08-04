@@ -40,7 +40,6 @@ public class GameHelper {
         return game;
     }
 
-
     private void createBoardPresenter() {
         setMoves();
         presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
