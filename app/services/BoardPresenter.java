@@ -46,10 +46,14 @@ public class BoardPresenter {
 
     private void showCorrectCell(List<String> stringBoard, int i) {
         if (board.getMarkAt(i).equals(Marks.NULL)) {
-            stringBoard.add(" ");
+            stringBoard.add("  ");
         } else {
             stringBoard.add(board.getMarkAt(i).toString());
         }
+    }
+
+    public boolean gameIsOver() {
+        return game.isOver();
     }
 
     public String gameStatus() {

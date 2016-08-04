@@ -4,7 +4,7 @@ import ttt.game.GameOption;
 
 import java.util.HashMap;
 
-public class GameMenuPresenter implements MenuPresenter {
+public class GameMenuPresenter {
 
     private String endpoint;
 
@@ -18,17 +18,5 @@ public class GameMenuPresenter implements MenuPresenter {
             options.put(gameOption.key, gameOption.title);
         }
         return options;
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public boolean isChosen() {
-        return false;
-    }
-
-    public String getOption() {
-        return null;
     }
 }

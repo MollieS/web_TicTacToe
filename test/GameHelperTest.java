@@ -47,6 +47,6 @@ public class GameHelperTest {
     public void playsTheGame() {
         gameHelper.createGame(1, "Human v Human");
         gameHelper.playGame(0);
-        assertEquals(gameHelper.getPresenter().showBoard(), Arrays.asList("X", " ", " ", " ", " ", " ", " ", " ", " "));
+        assertEquals(gameHelper.getPresenter().showBoard(), Arrays.asList("X", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "));
     }
 }

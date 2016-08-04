@@ -1,28 +1,31 @@
 package controllers;
 
+import com.google.inject.Inject;
+import play.data.DynamicForm;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.BoardMenuPresenter;
 import services.GameHelper;
 import services.GameMenuPresenter;
-import services.MenuPresenter;
+import ttt.game.GameOption;
 import views.html.board;
 import views.html.index;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameController extends Controller {
 
+    private final FormFactory formFactory;
     private HashMap<String, GameHelper> gameMap = new HashMap<>();
     private GameHelper gameHelper;
-    private BoardMenuPresenter boardMenu = new BoardMenuPresenter();
+
+    @Inject
+    public GameController(FormFactory formFactory) {
+        this.formFactory = formFactory;
+    }
 
     public Result showMenus() {
-        List<MenuPresenter> menus = Arrays.asList(boardMenu, new GameMenuPresenter());
-        return ok(index.render("Tic Tac Toe", menus));
+        return ok(index.render("Tic Tac Toe", new GameMenuPresenter()));
     }
 
     public Result showBoard() throws Exception {
@@ -30,19 +33,24 @@ public class GameController extends Controller {
         return ok(board.render(gameHelper.getPresenter()));
     }
 
-    public Result newBoard() {
+    public Result newGame() {
         createNewSession();
-        GameHelper gameHelper = gameMap.get(session("game"));
-        gameHelper.setBoardSize(getBoardChoice());
-        return redirect("/");
+        DynamicForm data = formFactory.form().bindFromRequest();
+        Integer type = Integer.valueOf(data.get("gameType"));
+        String gameType = getGameTitle(type);
+        Integer boardSize = Integer.valueOf(type);
+        gameHelper = gameMap.get(session("game"));
+        gameHelper.createGame(type, gameType, boardSize);
+        return redirect("/game");
     }
 
-    public Result newGame() {
-        Integer type = Integer.valueOf(getParameter("type"));
-        String gameType = getParameter("name");
-        gameHelper = gameMap.get(session("game"));
-        gameHelper.createGame(type, gameType);
-        return redirect("/game");
+    private String getGameTitle(int gameType) {
+        for (GameOption option : GameOption.values()) {
+            if (Objects.equals(option.key, String.valueOf(gameType))) {
+                return option.title;
+            }
+        }
+        return null;
     }
 
     public Result placeMark() {
@@ -50,11 +58,6 @@ public class GameController extends Controller {
         GameHelper gameHelper = gameMap.get(session("game"));
         gameHelper.playGame(move);
         return redirect("/game");
-    }
-
-    private Integer getBoardChoice() {
-        boardMenu.chooseOption(getParameter("name"));
-        return Integer.valueOf(getParameter("type"));
     }
 
     private void createNewSession() {
