@@ -23,6 +23,6 @@ public class WebPlayer implements Player {
     }
 
     public Class playerType() {
-        return null;
+        return getClass();
     }
 }

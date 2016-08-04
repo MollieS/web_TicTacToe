@@ -8,23 +8,16 @@ import java.util.Arrays;
 
 public class GameHelper {
 
-    private String gameType;
-    private Integer boardSize;
     private BoardPresenter presenter;
     private GameLoop gameLoop;
     private GameEngine game;
-
-    public GameHelper() {
-        this.boardSize = 3;
-    }
 
     public BoardPresenter getPresenter() {
         createBoardPresenter();
         return presenter;
     }
 
-    public void createGame(Integer type, String gameType) {
-        setGameType(gameType);
+    public void createGame(Integer type, String gameType, Integer boardSize) {
         game = GameConstructor.create(Arrays.asList(type, boardSize), getPlayerFactory());
         presenter = new BoardPresenter(game.showBoard(), game, gameType);
         gameLoop = new GameLoop(game);
@@ -40,28 +33,15 @@ public class GameHelper {
         return game;
     }
 
-
     private void createBoardPresenter() {
         setMoves();
         presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
-    }
-
-    public void setBoardSize(int size) {
-        boardSize = size;
-    }
-
-    public int getBoardSize() {
-        return boardSize;
     }
 
     private PlayerFactory getPlayerFactory() {
         Player player = new WebPlayer(Marks.X);
         Player player1 = new WebPlayer(Marks.O);
         return new PlayerFactory(player, player1);
-    }
-
-    private void setGameType(String gameType) {
-        this.gameType = gameType;
     }
 
     private void setMoves() {

@@ -32,5 +32,9 @@
 
 <div>@boardPresenter.gameStatus</div>
 
+@if(boardPresenter.gameIsOver) {
+    <a href="@routes.GameController.showMenus" >play again</a>
+}
+
 </body>
 }
