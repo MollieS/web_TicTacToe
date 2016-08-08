@@ -5,8 +5,8 @@
 @main("Tic Tac Toe") {
 
 <head>
-    @if(boardPresenter.gameIsInteractive) {
-        <meta http-equiv="refresh" content="1"></head>
+    @if(boardPresenter.gameIsInteractive || !boardPresenter.gameIsOver) {
+        <meta http-equiv="refresh" content="2"></head>
     }
 <body>
 <h1>Tic Tac Toe</h1>

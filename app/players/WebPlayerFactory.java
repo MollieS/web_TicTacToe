@@ -2,7 +2,10 @@ package players;
 
 import ttt.Player;
 import ttt.game.Marks;
+import ttt.players.PerfectPlayer;
 import ttt.players.PlayerFactory;
+import ttt.players.RandomLocationGenerator;
+import ttt.players.RandomPlayer;
 
 public class WebPlayerFactory extends PlayerFactory {
 
@@ -10,8 +13,10 @@ public class WebPlayerFactory extends PlayerFactory {
         switch (playerType) {
             case WebPlayerType.HUMAN:
                 return new WebPlayer(mark);
+            case WebPlayerType.PERFECT:
+                return new PerfectPlayer(mark);
             default:
-                return PlayerFactory.create(playerType, mark);
+                return new RandomPlayer(new RandomLocationGenerator(), mark);
         }
     }
 }

@@ -1,5 +1,7 @@
 # Tic Tac Toe : Web
 
+[![Build Status](https://travis-ci.org/MollieS/web_TicTacToe.svg?branch=master)](https://travis-ci.org/MollieS/web_TicTacToe)
+
 Web version of Tic Tac Toe
 
 Deployed to heroku at https://javattt.herokuapp.com/

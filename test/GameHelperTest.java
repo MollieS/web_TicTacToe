@@ -49,7 +49,7 @@ public class GameHelperTest {
 
     @Test
     public void splitsGameTypeAndReturnsCorrectString() {
-        String player = gameHelper.getPlayer(1, "Human v Human");
+        String player = gameHelper.getPlayerType(1, "Human v Human");
         assertEquals("HUMAN", player);
     }
 }

@@ -20,15 +20,15 @@ public class GameHelper {
     }
 
     public void createGame(String gameType, Integer boardSize) {
-        Player player1 = WebPlayerFactory.create(getPlayer(1, gameType), Marks.X);
-        Player player2 = WebPlayerFactory.create(getPlayer(2, gameType), Marks.O);
+        Player player1 = WebPlayerFactory.create(getPlayerType(1, gameType), Marks.X);
+        Player player2 = WebPlayerFactory.create(getPlayerType(2, gameType), Marks.O);
         Board board = new Board(boardSize);
         game = new GameEngine(player1, player2, board);
         presenter = new BoardPresenter(game.showBoard(), game, gameType);
         gameLoop = new GameLoop(game);
     }
 
-    public String getPlayer(int playerNumber, String gameType) {
+    public String getPlayerType(int playerNumber, String gameType) {
         String[] words = gameType.split(" ");
         if (playerNumber == 1) {
             return words[0].toUpperCase();
@@ -40,7 +40,7 @@ public class GameHelper {
     public void playGame(Integer move) {
         gameLoop.setNextMove(move);
         gameLoop.playMoves();
-        presenter = presenter.update(game.showBoard(),true);
+        presenter = presenter.update(game.showBoard(), true);
     }
 
     public GameEngine getGame() {
