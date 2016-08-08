@@ -1,5 +1,5 @@
 import org.junit.Test;
-import services.WebPlayer;
+import players.WebPlayer;
 import ttt.game.Marks;
 
 import static org.junit.Assert.assertEquals;

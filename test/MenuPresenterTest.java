@@ -1,6 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
-import services.GameMenuPresenter;
+import presenters.GameMenuPresenter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,8 +14,8 @@ public class MenuPresenterTest {
     }
 
     @Test
-    public void convertsGameOptionsToHash() {
-        assertEquals("Human v Human", gameMenuPresenter.showOptions().get("1"));
+    public void convertsGameOptionsToList() {
+        assertEquals("Human v Human", gameMenuPresenter.showOptions().get(0));
     }
 
 }

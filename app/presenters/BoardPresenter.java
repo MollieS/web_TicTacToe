@@ -1,4 +1,4 @@
-package services;
+package presenters;
 
 import ttt.game.Board;
 import ttt.game.GameEngine;
@@ -59,7 +59,7 @@ public class BoardPresenter {
     public String gameStatus() {
         if (game.isWon()) { return game.winningMark() + " wins!"; }
         if (game.isDraw()) { return "It's a draw!"; }
-        return game.currentMark() + "'s turn";
+        return game.getCurrentPlayer().getMark() + "'s turn";
     }
 
     public String gameType() {

@@ -6,12 +6,12 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.GameHelper;
-import services.GameMenuPresenter;
-import ttt.game.GameOption;
+import presenters.GameMenuPresenter;
 import views.html.board;
 import views.html.index;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameController extends Controller {
 
@@ -36,21 +36,11 @@ public class GameController extends Controller {
     public Result newGame() {
         createNewSession();
         DynamicForm data = formFactory.form().bindFromRequest();
-        Integer type = Integer.valueOf(data.get("gameType"));
-        String gameType = getGameTitle(type);
-        Integer boardSize = Integer.valueOf(type);
+        String gameType = data.get("gameType");
+        Integer boardSize = Integer.valueOf(data.get("boardSize"));
         gameHelper = gameMap.get(session("game"));
-        gameHelper.createGame(type, gameType, boardSize);
+        gameHelper.createGame(gameType, boardSize);
         return redirect("/game");
-    }
-
-    private String getGameTitle(int gameType) {
-        for (GameOption option : GameOption.values()) {
-            if (Objects.equals(option.key, String.valueOf(gameType))) {
-                return option.title;
-            }
-        }
-        return null;
     }
 
     public Result placeMark() {

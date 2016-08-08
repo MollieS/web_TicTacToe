@@ -1,6 +1,6 @@
 import org.junit.Test;
-import services.BoardPresenter;
-import services.WebPlayer;
+import presenters.BoardPresenter;
+import players.WebPlayer;
 import ttt.Player;
 import ttt.game.Board;
 import ttt.game.GameEngine;

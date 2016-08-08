@@ -1,10 +1,12 @@
 package services;
 
+import players.WebPlayerFactory;
+import presenters.BoardPresenter;
 import ttt.Player;
-import ttt.game.*;
-import ttt.players.PlayerFactory;
-
-import java.util.Arrays;
+import ttt.game.Board;
+import ttt.game.GameEngine;
+import ttt.game.GameLoop;
+import ttt.game.Marks;
 
 public class GameHelper {
 
@@ -17,16 +19,28 @@ public class GameHelper {
         return presenter;
     }
 
-    public void createGame(Integer type, String gameType, Integer boardSize) {
-        game = GameConstructor.create(Arrays.asList(type, boardSize), getPlayerFactory());
+    public void createGame(String gameType, Integer boardSize) {
+        Player player1 = WebPlayerFactory.create(getPlayer(1, gameType), Marks.X);
+        Player player2 = WebPlayerFactory.create(getPlayer(2, gameType), Marks.O);
+        Board board = new Board(boardSize);
+        game = new GameEngine(player1, player2, board);
         presenter = new BoardPresenter(game.showBoard(), game, gameType);
         gameLoop = new GameLoop(game);
+    }
+
+    public String getPlayer(int playerNumber, String gameType) {
+        String[] words = gameType.split(" ");
+        if (playerNumber == 1) {
+            return words[0].toUpperCase();
+        } else {
+            return words[2].toUpperCase();
+        }
     }
 
     public void playGame(Integer move) {
         gameLoop.setNextMove(move);
         gameLoop.playMoves();
-        presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
+        presenter = presenter.update(game.showBoard(),true);
     }
 
     public GameEngine getGame() {
@@ -35,13 +49,7 @@ public class GameHelper {
 
     private void createBoardPresenter() {
         setMoves();
-        presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
-    }
-
-    private PlayerFactory getPlayerFactory() {
-        Player player = new WebPlayer(Marks.X);
-        Player player1 = new WebPlayer(Marks.O);
-        return new PlayerFactory(player, player1);
+        presenter = presenter.update(game.showBoard(), true);
     }
 
     private void setMoves() {

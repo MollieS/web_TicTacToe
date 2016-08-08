@@ -1,4 +1,4 @@
-@import services.GameMenuPresenter
+@import presenters.GameMenuPresenter
 
 @(message: String, menu: GameMenuPresenter)
 
@@ -15,9 +15,9 @@
 
     <h3>Game Type</h3>
 
-    @for(entry <- menu.showOptions) {
+    @for(option <- menu.showOptions) {
 
-    <input type="radio" value="@entry._1" name="gameType">@entry._2<br>
+    <input type="radio" value="@option" name="gameType">@option<br>
 
     }
     <input type="submit" value="submit">
