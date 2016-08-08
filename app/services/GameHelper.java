@@ -1,67 +1,55 @@
 package services;
 
+import players.WebPlayerFactory;
+import presenters.BoardPresenter;
 import ttt.Player;
-import ttt.game.*;
-import ttt.players.PlayerFactory;
-
-import java.util.Arrays;
+import ttt.game.Board;
+import ttt.game.GameEngine;
+import ttt.game.GameLoop;
+import ttt.game.Marks;
 
 public class GameHelper {
 
-    private String gameType;
-    private Integer boardSize;
     private BoardPresenter presenter;
     private GameLoop gameLoop;
     private GameEngine game;
-
-    public GameHelper() {
-        this.boardSize = 3;
-    }
 
     public BoardPresenter getPresenter() {
         createBoardPresenter();
         return presenter;
     }
 
-    public void createGame(Integer type, String gameType) {
-        setGameType(gameType);
-        game = GameConstructor.create(Arrays.asList(type, boardSize), getPlayerFactory());
+    public void createGame(String gameType, Integer boardSize) {
+        Player player1 = WebPlayerFactory.create(getPlayerType(1, gameType), Marks.X);
+        Player player2 = WebPlayerFactory.create(getPlayerType(2, gameType), Marks.O);
+        Board board = new Board(boardSize);
+        game = new GameEngine(player1, player2, board);
         presenter = new BoardPresenter(game.showBoard(), game, gameType);
         gameLoop = new GameLoop(game);
+    }
+
+    public String getPlayerType(int playerNumber, String gameType) {
+        String[] words = gameType.split(" ");
+        if (playerNumber == 1) {
+            return words[0].toUpperCase();
+        } else {
+            return words[2].toUpperCase();
+        }
     }
 
     public void playGame(Integer move) {
         gameLoop.setNextMove(move);
         gameLoop.playMoves();
-        presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
+        presenter = presenter.update(game.showBoard(), true);
     }
 
     public GameEngine getGame() {
         return game;
     }
 
-
     private void createBoardPresenter() {
         setMoves();
-        presenter = presenter.update(game.showBoard(), gameLoop.hasNextMove());
-    }
-
-    public void setBoardSize(int size) {
-        boardSize = size;
-    }
-
-    public int getBoardSize() {
-        return boardSize;
-    }
-
-    private PlayerFactory getPlayerFactory() {
-        Player player = new WebPlayer(Marks.X);
-        Player player1 = new WebPlayer(Marks.O);
-        return new PlayerFactory(player, player1);
-    }
-
-    private void setGameType(String gameType) {
-        this.gameType = gameType;
+        presenter = presenter.update(game.showBoard(), true);
     }
 
     private void setMoves() {

@@ -1,4 +1,4 @@
-package services;
+package presenters;
 
 import ttt.game.Board;
 import ttt.game.GameEngine;
@@ -46,16 +46,20 @@ public class BoardPresenter {
 
     private void showCorrectCell(List<String> stringBoard, int i) {
         if (board.getMarkAt(i).equals(Marks.NULL)) {
-            stringBoard.add(" ");
+            stringBoard.add("  ");
         } else {
             stringBoard.add(board.getMarkAt(i).toString());
         }
     }
 
+    public boolean gameIsOver() {
+        return game.isOver();
+    }
+
     public String gameStatus() {
         if (game.isWon()) { return game.winningMark() + " wins!"; }
         if (game.isDraw()) { return "It's a draw!"; }
-        return game.currentMark() + "'s turn";
+        return game.getCurrentPlayer().getMark() + "'s turn";
     }
 
     public String gameType() {

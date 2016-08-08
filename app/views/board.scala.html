@@ -1,12 +1,12 @@
-@import services.BoardPresenter
+@import presenters.BoardPresenter
 
 @(boardPresenter: BoardPresenter)
 
 @main("Tic Tac Toe") {
 
 <head>
-    @if(boardPresenter.gameIsInteractive) {
-        <meta http-equiv="refresh" content="1"></head>
+    @if(boardPresenter.gameIsInteractive || !boardPresenter.gameIsOver) {
+        <meta http-equiv="refresh" content="2"></head>
     }
 <body>
 <h1>Tic Tac Toe</h1>
@@ -31,6 +31,10 @@
 
 
 <div>@boardPresenter.gameStatus</div>
+
+@if(boardPresenter.gameIsOver) {
+    <a href="@routes.GameController.showMenus" >play again</a>
+}
 
 </body>
 }

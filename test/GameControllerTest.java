@@ -1,7 +1,4 @@
-import controllers.GameController;
-import controllers.routes;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
@@ -9,15 +6,10 @@ import play.mvc.Http;
 import play.mvc.Result;
 import play.test.WithApplication;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.contentAsString;
-import static play.test.Helpers.fakeRequest;
-import static play.test.Helpers.route;
+import static play.test.Helpers.*;
 
 public class GameControllerTest extends WithApplication {
 
@@ -51,13 +43,5 @@ public class GameControllerTest extends WithApplication {
         assertTrue(contentAsString(result).contains("Human v Human"));
     }
 
-    @Test
-    public void choosingABoardRedirectsBackToMenuPage() {
-        Map<String, String> boardChoice = new HashMap<>();
-        boardChoice.put("type", "3");
-        boardChoice.put("name", "3x3");
-        Result boardResult = route(fakeRequest(routes.GameController.newBoard()).bodyForm(boardChoice));
-        assertEquals("/", boardResult.header("Location").get());
-    }
 }
 

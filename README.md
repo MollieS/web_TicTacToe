@@ -1,12 +1,18 @@
 # Tic Tac Toe : Web
 
+[![Build Status](https://travis-ci.org/MollieS/web_TicTacToe.svg?branch=master)](https://travis-ci.org/MollieS/web_TicTacToe)
+
 Web version of Tic Tac Toe
 
 Deployed to heroku at https://javattt.herokuapp.com/
 
-## To run locally:
+## Requirements
 
-Requirements: activator
+* activator 1.3.10
+* play 2.5.4 "streamy"
+* sbt 0.13.11
+
+## To run locally:
 
 `git clone` this repository
 `cd web_TicTacToe`

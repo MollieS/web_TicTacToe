@@ -1,4 +1,5 @@
-package services;
+package players;
+
 
 import ttt.Player;
 import ttt.game.Board;
@@ -23,6 +24,6 @@ public class WebPlayer implements Player {
     }
 
     public Class playerType() {
-        return null;
+        return getClass();
     }
 }
